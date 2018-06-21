@@ -23,7 +23,7 @@ class LogIn extends Component {
   }
 
   handleSubmit = (e: SyntheticEvent, data: object) => {
-    fetch('http://192.168.1.170:3000/login', {
+    fetch('http://100.38.63.221:44400/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

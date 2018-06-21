@@ -1,22 +1,26 @@
 import { combineReducers } from 'redux'
-import currentUser from './reducer-user'
-import loggedIn from './reducer-log'
+import userReducer from './reducer-user'
+import logReducer from './reducer-log'
 import fieldsReducer from './reducer-fields'
 import pitReducer from './reducer-pit'
 import applicationReducer from './reducer-application'
 import methodReducer from './reducer-method'
 import soilReducer from './reducer-soil'
 import weatherReducer from './reducer-weather'
+import pageReducer from './reducer-page'
+import formReducer from './reducer-form'
 
 const allReducers = combineReducers({
-  currentUser: currentUser,
-  loggedIn: loggedIn,
+  currentUser: userReducer,
+  loggedIn: logReducer,
   fieldsList: fieldsReducer,
   pitOptions: pitReducer,
   applicationOptions: applicationReducer,
   methodOptions: methodReducer,
   soilOptions: soilReducer,
-  weatherOptions: weatherReducer
+  weatherOptions: weatherReducer,
+  pageState: pageReducer,
+  formState: formReducer
 })
 
 export default allReducers

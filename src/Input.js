@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Form } from 'semantic-ui-react'
-// import { bindActionCreators } from 'redux'
+import { Form, Button } from 'semantic-ui-react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Timestamp from './timestamp'
+import { pageChange } from './actions/pageChange'
+import { formChange } from './actions/formChange'
 
 
 class Input extends Component {
@@ -10,7 +12,18 @@ class Input extends Component {
     super()
 
     this.state = {
-
+      field: '',
+      pit: '',
+      sand: '',
+      description: '',
+      acres: '',
+      gallons: '',
+      application: '',
+      method: '',
+      soil: '',
+      weather: '',
+      temp: '',
+      notes: ''
     }
   }
 
@@ -19,8 +32,9 @@ class Input extends Component {
     this.setState(
       {
         field: field.id,
-        sand: field.sand,
-        description: field.description
+        sand: field.sand ? "Y" : "N",
+        description: field.description,
+        acres: field.acreage
       }
     )
   }
@@ -37,6 +51,10 @@ class Input extends Component {
     console.log(this.state)
   }
 
+  changer = () => {
+    this.props.pageChange('home')
+  }
+
   render () {
     const fieldsOptions = this.props.fieldsList.map((field) => {
       return {
@@ -46,26 +64,26 @@ class Input extends Component {
       }
     })
     return (
-      <Form inverted onSubmit={this.submission}>
-        <Form.Input label="Date and Time" value={this.props.currentUser.logInStamp} />
-        <Form.Input label="Initials" value={this.props.currentUser.initials} />
-        <Form.Dropdown label='Field' name='field' placeholder='#' search selection options={fieldsOptions} onChange={this.changeField} />
-        <Form.Dropdown label='Pit' name='pit' placeholder='#' search selection options={this.props.pitOptions} onChange={this.handleChange} />
-        <Form.Dropdown label='Sand' name='sand' placeholder='Select' value={this.state.sand} search selection options={[{key: 'Y', value: 'Y', text: 'Yes'}, {key: 'N', value: 'N', text: 'No'}]} onChange={this.handleChange} />
-        <Form.Input label="Field Description" name='description' value={this.state.description} onChange={this.handleChange} />
+      <Form inverted>
+        <Form.Dropdown label='Pit' name='pit' placeholder='#' search selection options={this.props.pitOptions} onChange={this.handleChange} required/>
+        <Form.Dropdown label='Field' name='field' placeholder='#' search selection options={fieldsOptions} onChange={this.changeField} required/>
+        <Form.Input label='Acres' name='acres' value={this.state.acres} placeholder='Number of acres' onChange={this.handleChange} required/>
+        <Form.Dropdown label='Sand' name='sand' placeholder='Select' value={this.state.sand} search selection options={[{key: 'Y', value: 'Y', text: 'Yes'}, {key: 'N', value: 'N', text: 'No'}]} onChange={this.handleChange} required/>
+        <Form.Input label="Field Description" name='description' value={this.state.description} onChange={this.handleChange} required/>
         Start Time
         <Timestamp />
         End Time
         <Timestamp />
-        <Form.Input label='Field + Acres' placeholder='Field number and number of acres' />
-        <Form.Input label='Gallons per Acres' placeholder='Number' />
+        <Form.Input label='Gallons per Acres' name='gallons' value={this.state.gallons} placeholder='Number' onChange={this.handleChange} required/>
         Manure Application Details
-        <Form.Dropdown name="application" placeholder='Field Application' search selection value={this.state.application} options={this.props.applicationOptions} onChange={this.handleChange}/>
-        <Form.Dropdown placeholder='Application Methods' search selection options={this.props.methodOptions} />
-        <Form.Dropdown placeholder='Soil Conditions' search selection options={this.props.soilOptions} />
-        <Form.Dropdown placeholder='Weather Application' search selection options={this.props.weatherOptions} />
-        <Form.TextArea label='Notes' placeholder='Any additional notes or comments' />
-        <Form.Button inverted type='submit'>Submit</Form.Button>
+        <Form.Dropdown name="application" placeholder='Field Application' search selection value={this.state.application} options={this.props.applicationOptions} onChange={this.handleChange} required/>
+        <Form.Dropdown name='method' value={this.state.method} placeholder='Application Methods' search selection options={this.props.methodOptions} onChange={this.handleChange} required/>
+        <Form.Dropdown name='soil' value={this.state.soil} placeholder='Soil Conditions' search selection options={this.props.soilOptions} onChange={this.handleChange} required/>
+        <Form.Dropdown name='weather' value={this.state.weather} placeholder='Weather Application' search selection options={this.props.weatherOptions} onChange={this.handleChange} required/>
+        <Form.Input label='Temperature' name='temp' value={this.state.temp} placeholder='Temperature in degrees' onChange={this.handleChange} required/>
+        <Form.TextArea label='Notes' name='notes' value={this.state.notes} placeholder='Any additional notes or comments' onChange={this.handleChange} />
+        <Button inverted onClick={this.changer}>Back</Button>
+        <Button inverted onClick={this.submission}>Submit</Button>
       </Form>
     )
   }
@@ -83,4 +101,11 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Input)
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({
+    pageChange: pageChange,
+    formChange: formChange
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Input)

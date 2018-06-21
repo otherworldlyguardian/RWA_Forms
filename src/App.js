@@ -1,24 +1,27 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Segment, Header } from 'semantic-ui-react'
+import { Segment, Menu } from 'semantic-ui-react'
 import { fieldsUpdate } from './actions/fieldsUpdate'
-import Input from './Input.js'
-import LogIn from './LogIn.js'
+import DriverMenu from './DriverMenu'
+import LogIn from './LogIn'
 
 class App extends Component {
-  componentWillMount() {
-    fetch('http://192.168.1.170:3000/fields')
-    .then(resp => resp.json())
-    .then(data => this.props.fieldsUpdate(data.fields))
-  }
+  // componentWillMount() {
+  //   fetch('http://100.38.63.221:44400/fields')
+  //   .then(resp => resp.json())
+  //   .then(data => this.props.fieldsUpdate(data.fields))
+  // }
 
   render () {
     if (this.props.loggedIn) {
       return (
         <Segment inverted raised>
-          <Header as='h2'>Welcome, {this.props.currentUser.firstName}</Header>
-          <Input />
+          <Menu>
+            <Menu.Item header>Welcome, {this.props.currentUser.firstName}</Menu.Item>
+            <Menu.Item position='right'>Log Out</Menu.Item>
+          </Menu>
+          <DriverMenu />
         </Segment>
       )
     } else {
@@ -37,7 +40,9 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({fieldsUpdate: fieldsUpdate}, dispatch)
+  return bindActionCreators({
+    fieldsUpdate: fieldsUpdate
+  }, dispatch)
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(App)
