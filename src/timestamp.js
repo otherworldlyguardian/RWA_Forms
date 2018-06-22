@@ -19,16 +19,9 @@ class Timestamp extends Component {
   }
 
   render () {
-    if (this.state.click) {
       return (
         <p>{this.state.ts}<Button inverted onClick={this.clickTimestamp}>New Timestamp</Button></p>
       )
-    }
-    return (
-      <p>
-        <Button inverted onClick={this.clickTimestamp}>New Timestamp</Button>
-      </p>
-    )
   }
 }
 

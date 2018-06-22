@@ -14,6 +14,7 @@ class LogIn extends Component {
       password: ''
     }
   }
+
   handleChange = (e: SyntheticEvent, data: object) => {
     this.setState(
       {
@@ -27,20 +28,21 @@ class LogIn extends Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'accept': 'application/json',
-        'Authorization': localStorage.getItem('jwt')
+        'accept': 'application/json'
       },
       body: JSON.stringify(this.state)
     })
     .then(resp => resp.json())
     .then(data => {
       if (!data.error) {
+        localStorage.setItem('rwa', data.rwa)
         this.props.logIn()
         this.props.setUser(data)
       } else {
         this.setState({
           password: ''
         })
+        window.alert('You have made a mistake with your login credentials.')
       }
     })
   }

@@ -9,6 +9,7 @@ import soilReducer from './reducer-soil'
 import weatherReducer from './reducer-weather'
 import pageReducer from './reducer-page'
 import formReducer from './reducer-form'
+import currentFormReducer from './reducer-submit'
 
 const allReducers = combineReducers({
   currentUser: userReducer,
@@ -20,7 +21,8 @@ const allReducers = combineReducers({
   soilOptions: soilReducer,
   weatherOptions: weatherReducer,
   pageState: pageReducer,
-  formState: formReducer
+  formState: formReducer,
+  currentForm: currentFormReducer
 })
 
 export default allReducers
