@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Segment, Container, Button, Divider } from 'semantic-ui-react'
-import Timestamp from './timestamp'
 import { formUpdate } from './actions/formUpdate'
 import { formChange } from './actions/formChange'
 import { pageChange } from './actions/pageChange'
@@ -15,6 +14,12 @@ class Third extends Component {
       start: '',
       end: ''
     }
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      ...this.props.currentForm
+    })
   }
 
   buttonClick = (e: SytheticEvent, data: object) => {
@@ -36,12 +41,14 @@ class Third extends Component {
 
   clickStart = () => {
     this.setState({
+      notEmpty: true,
       start: Date().split(' G')[0]
     })
   }
 
   clickEnd = () => {
     this.setState({
+      notEmpty: true,
       end: Date().split(' G')[0]
     })
   }
@@ -65,12 +72,18 @@ class Third extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    currentForm: state.currentForm
+  }
+}
+
 function matchDispatchToProps(dispatch) {
   return bindActionCreators({
     formUpdate: formUpdate,
     pageChange: pageChange,
-    formChange: formChange
+    formChange: formChange,
   }, dispatch)
 }
 
-export default connect(null, matchDispatchToProps)(Third)
+export default connect(mapStateToProps, matchDispatchToProps)(Third)

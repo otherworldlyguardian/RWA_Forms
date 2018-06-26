@@ -63,7 +63,7 @@ class Last extends Component {
         if (this.complete()) {
           this.submitForm()
         } else {
-          window.alert('Some information is missiing. Please go back and fill out all required information.')
+          window.alert('Some information is missing. Please go back and fill out all required information.')
         }
         break
       case 'Back':
